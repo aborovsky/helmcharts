@@ -100,7 +100,7 @@ This will configure an Ingress with automatic TLS certificate provisioning via L
 |-----------|-------------|---------|
 | `behavioralPattern` | Behavioral pattern to execute. Options: `all`, `file_upload`, `filtered_data`, `feed`, `transaction`, `resource_update`, `auth`, `file_download`, `fast` | `"all"` |
 | `excludeBehavioralPatterns` | Patterns to exclude (comma-separated) | `"none"` |
-| `repeatersStrategy` | Repeater selection strategy (`each-scan-separate-repeater` or `single-repeater-for-all-scans`) | `"single-repeater-for-all-scans"` |
+| `repeatersStrategy` | Repeater selection strategy (`few-repeaters` or `single-repeater-for-all-scans`) | `"single-repeater-for-all-scans"` |
 
 ### Repeater Resources
 

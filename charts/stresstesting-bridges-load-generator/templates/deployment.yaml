@@ -69,6 +69,8 @@ spec:
               value: "{{ .Values.cluster }}"
             - name: REPEATERS_STRATEGY
               value: "{{ .Values.repeatersStrategy }}"
+            - name: SCANS_PER_REPEATER
+              value: "{{ .Values.scansPerRepeater }}"
             - name: BEHAVIORAL_PATTERN
               value: "{{ .Values.behavioralPattern }}"
             - name: EXCLUDE_BEHAVIORAL_PATTERNS

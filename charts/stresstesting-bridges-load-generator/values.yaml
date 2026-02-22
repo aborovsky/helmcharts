@@ -38,8 +38,11 @@ proxy:
 # Cluster and Repeater Configuration
 cluster: "https://development.playground.brightsec.com"
 
-# Repeaters strategy: "each-scan-separate-repeater" or "single-repeater-for-all-scans"
+# Repeaters strategy: "few-repeaters" or "single-repeater-for-all-scans"
 repeatersStrategy: "single-repeater-for-all-scans"
+
+# Works with 'few-repeaters' strategy - how many scans to assign to each repeater
+scansPerRepeater: "1"
 
 # Behavioral pattern to execute during the test
 # Options: all, file_upload, filtered_data, feed, transaction, resource_update, auth, file_download, fast
