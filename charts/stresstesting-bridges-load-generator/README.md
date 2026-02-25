@@ -113,6 +113,15 @@ Configure resources for spawned repeaters during the test:
 | `repeater.resources.limits.cpu` | CPU limit for repeaters | `"500m"` |
 | `repeater.resources.limits.memory` | Memory limit for repeaters | `"512Mi"` |
 
+### Repeater Image Configuration
+
+Configure the container image for spawned repeaters:
+
+| Parameter | Description | Default |
+|-----------|-------------|---------||
+| `repeater.image.tag` | Image tag for repeaters | `""` |
+| `repeater.image.version` | Image version for repeaters | `""` |
+
 ### Load Generator Pod Resources
 
 Configure resources for the load generator pod itself:
@@ -200,3 +209,5 @@ The following environment variables are passed to the container:
 - `REPEATER_CPU_LIMIT` - CPU limit for repeaters
 - `REPEATER_MEM_REQUEST` - Memory request for repeaters
 - `REPEATER_MEM_LIMIT` - Memory limit for repeaters
+- `REPEATER_IMAGE_TAG` - Image tag for repeaters
+- `REPEATER_IMAGE_VERSION` - Image version for repeaters

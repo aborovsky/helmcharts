@@ -54,6 +54,9 @@ excludeBehavioralPatterns: "none"
 # Repeater Resource Configuration
 # These define the resources allocated to spawned repeaters during the test
 repeater:
+  image:
+    tag: ""
+    version: ""
   resources:
     requests:
       cpu: 100m

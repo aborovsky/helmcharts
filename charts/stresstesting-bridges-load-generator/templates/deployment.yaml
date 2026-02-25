@@ -83,5 +83,9 @@ spec:
               value: "{{ .Values.repeater.resources.requests.memory }}"
             - name: REPEATER_MEM_LIMIT
               value: "{{ .Values.repeater.resources.limits.memory }}"
+            - name: REPEATER_IMAGE_TAG
+              value: "{{ .Values.repeater.image.tag }}"
+            - name: REPEATER_IMAGE_VERSION
+              value: "{{ .Values.repeater.image.version }}"
           resources:
 {{ toYaml .Values.resources | indent 12 }}
