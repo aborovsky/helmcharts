@@ -23,11 +23,21 @@ spec:
           image: ghcr.io/brightsec/ntlm-auth-server
           env:
             - name: HTTP_PORT
-              value: "8080"
+              value: "8443"
+            - name: CERT_DIR
+              value: /var/cert
             {{- if .Values.ntlmUsers }}
             - name: NTLM_USERS
               value: {{ .Values.ntlmUsers | quote }}
             {{- end }}
+          ports:
+            - name: https
+              containerPort: 8443
+              protocol: TCP
+          volumeMounts:
+            - name: tls
+              mountPath: /var/cert
+              readOnly: true
           resources:
             requests:
               cpu: 50m
@@ -37,10 +47,20 @@ spec:
           livenessProbe:
             httpGet:
               path: /
-              port: 8080
-              scheme: HTTP
+              port: 8443
+              scheme: HTTPS
             initialDelaySeconds: 10
             periodSeconds: 30
+      volumes:
+        - name: tls
+          secret:
+            secretName: {{ required "tls.secretName is required" .Values.tls.secretName }}
+            # The server expects cert.pem and key.pem in CERT_DIR
+            items:
+              - key: tls.crt
+                path: cert.pem
+              - key: tls.key
+                path: key.pem
       restartPolicy: Always
       imagePullSecrets:
         - name: pull-ghcr-io

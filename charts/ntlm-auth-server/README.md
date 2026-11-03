@@ -4,14 +4,24 @@ Mock server for testing NTLM authentication clients.
 Source: https://github.com/brightsec/mock-servers/tree/master/apps/ntlm-auth-server
 
 NTLM authenticates the TCP connection, so the server is exposed through an AWS NLB
-on port 80 (plain HTTP) instead of ingress-nginx, which pools upstream connections
-and breaks the handshake. external-dns creates the record
+on port 443 (HTTPS) instead of ingress-nginx, which pools upstream connections
+and breaks the handshake. TLS is terminated by the server itself: the certificate is
+taken from the `kubernetes.io/tls` secret `tls.secretName` (default `nlbwildcard`,
+`*.nlb.brokencrystals.nexploit.app`) in the release namespace and mounted to
+`/var/cert` as `cert.pem` / `key.pem`. external-dns creates the record
 `<release>.nlb.brokencrystals.nexploit.app` pointing to the NLB.
 
 ## Deploy
 
 ```sh
 helm install <release> vulnerable-apps/ntlm-auth-server -n distributor
+```
+
+Custom TLS secret (optional):
+
+```sh
+helm install <release> vulnerable-apps/ntlm-auth-server -n distributor \
+  --set tls.secretName=<secret>
 ```
 
 Custom users (optional, defaults are `john/password` and `mydomain\jane/password`):
@@ -21,7 +31,7 @@ helm install <release> vulnerable-apps/ntlm-auth-server -n distributor \
   --set-string 'ntlmUsers=[{"username":"alice"\,"password":"s3cret"\,"domain":"corp"}]'
 ```
 
-The service is available at `http://<release>.nlb.brokencrystals.nexploit.app`
+The service is available at `https://<release>.nlb.brokencrystals.nexploit.app`
 (protected page: `/protected`) about 4 minutes after the install: ~2 minutes for
 the DNS record and ~2 more minutes for the NLB to serve traffic stably.
 
@@ -35,7 +45,7 @@ The test pod:
 
 1. resolves the name via the Route53 authoritative servers of `nexploit.app`,
    bypassing the cluster DNS, and waits up to `tests.timeoutSeconds` for the record;
-2. waits until every NLB IP answers `GET /` 12 times in a row with a 5 second step;
+2. waits until every NLB IP answers `GET /` over HTTPS (with certificate verification) 12 times in a row with a 5 second step;
 3. checks `/protected`: 401 without auth and with a wrong password, and 200 for the
    default users when `ntlmUsers` is not set.
 

@@ -1,5 +1,6 @@
 # NTLM authenticates the TCP connection, so the server is exposed through
 # an L4 NLB instead of ingress-nginx, which pools upstream connections.
+# TLS is terminated by the server itself (certificate from .Values.tls.secretName).
 apiVersion: v1
 kind: Service
 metadata:
@@ -22,7 +23,7 @@ spec:
   selector:
     app: {{ .Release.Name }}
   ports:
-  - name: http
+  - name: https
     protocol: TCP
-    port: 80
-    targetPort: 8080
+    port: 443
+    targetPort: 8443

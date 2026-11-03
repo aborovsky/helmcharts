@@ -1,8 +1,9 @@
-NTLM auth server is exposed through an AWS NLB on port 80:
+NTLM auth server is exposed through an AWS NLB on port 443 (HTTPS):
 
-  http://{{ .Release.Name }}.nlb.brokencrystals.nexploit.app
-  http://{{ .Release.Name }}.nlb.brokencrystals.nexploit.app/protected
+  https://{{ .Release.Name }}.nlb.brokencrystals.nexploit.app
+  https://{{ .Release.Name }}.nlb.brokencrystals.nexploit.app/protected
 
+TLS certificate is taken from the secret "{{ .Values.tls.secretName }}".
 The NLB and its DNS record may take a few minutes to become available.
 Check with: helm test {{ .Release.Name }} -n {{ .Release.Namespace }} --timeout {{ .Values.tests.timeoutSeconds }}s --logs
 {{- if not .Values.ntlmUsers }}

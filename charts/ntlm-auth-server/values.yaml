@@ -1,6 +1,10 @@
 # JSON array of users, e.g. [{"username":"john","password":"password","domain":"mydomain"}]
 # When empty, the server uses its default users: john/password, mydomain\jane/password
 ntlmUsers: ""
+tls:
+  # Name of a kubernetes.io/tls secret (tls.crt / tls.key) in the release namespace.
+  # The certificate must cover <release>.nlb.brokencrystals.nexploit.app.
+  secretName: nlbwildcard
 tests:
   image: nicolaka/netshoot:v0.13
   # Route53 authoritative name servers of the nexploit.app zone (ns-*.awsdns-*),
