@@ -46,7 +46,14 @@ clientCA: ""
 # "false": accept any certificate issued by clientCA; needs an image with
 # CLIENT_CERT_PINNING support, older images always pin (403 for other certs).
 # Empty: "false" when clientCA is set, "true" otherwise. NLB mode only.
+# Ignored with clientCertCheck=exact.
 clientCertPinning: ""
+
+# "ca": the client certificate must be issued by a CA in clientCA.
+# "exact": clientCA lists the accepted client certificates themselves; any
+# other certificate, even one from the same CA, is rejected. Needs an image
+# with CLIENT_CERT_CHECK support. NLB mode only.
+clientCertCheck: ca
 
 tests:
   image: nicolaka/netshoot:v0.13

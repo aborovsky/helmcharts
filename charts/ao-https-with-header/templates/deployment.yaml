@@ -31,6 +31,8 @@ spec:
             # Images built before this setting existed ignore it and always pin.
             - name: CLIENT_CERT_PINNING
               value: {{ include "ao-https-with-header.pinning" . | quote }}
+            - name: CLIENT_CERT_CHECK
+              value: {{ include "ao-https-with-header.check" . | quote }}
           ports:
             - name: https
               containerPort: 8443
